@@ -1,0 +1,80 @@
+### **How a Decision Tree Regressor Works vs. a Classifier**
+
+While both **Decision Tree Regressors** and **Classifiers** split the data recursively into smaller subsets, the way they handle the target variable differs:
+
+---
+
+### **Key Differences**
+
+| **Aspect**              | **Regressor**                                            | **Classifier**                                      |
+|-------------------------|---------------------------------------------------------|----------------------------------------------------|
+| **Target Variable**     | Continuous numeric values (e.g., house prices).         | Discrete categorical labels (e.g., spam/ham).     |
+| **Prediction Goal**     | Predict a single numeric value.                         | Assign a class label.                             |
+| **Node Criteria**       | Minimize variance or absolute error within each split.  | Maximize purity (e.g., Gini Impurity, Entropy).   |
+| **Leaf Node Prediction**| Mean (or median) of target values in that region.       | Majority class label in that region.              |
+
+---
+
+### **How a Decision Tree Regressor Determines Predictions**
+
+1. **Splitting the Data**:
+   - At each node, the feature and threshold that minimize the **error (e.g., variance or absolute error)** of the target values are chosen for splitting.
+
+2. **Recursive Partitioning**:
+   - The process continues recursively, dividing the dataset into smaller regions.
+   - This stops when a stopping criterion is met (e.g., `max_depth`, `min_samples_split`).
+
+3. **Leaf Nodes**:
+   - Each leaf node contains the subset of data points that remain after all splits.
+
+4. **Prediction**:
+   - For a new data point, the tree traverses based on the decision rules until reaching a leaf node.
+   - The prediction is:
+     - **Mean** (default) or **median** of the target values in the leaf node.
+
+---
+
+### **Example: Decision Tree Regressor**
+
+#### Training Data:
+| **Feature**: `RoomCount` | **Target**: `HousePrice` |
+|--------------------------|--------------------------|
+| 2                        | 300,000                 |
+| 3                        | 350,000                 |
+| 5                        | 500,000                 |
+| 6                        | 550,000                 |
+
+#### Splitting Process:
+1. **Split 1**: `RoomCount <= 3`
+   - Left Node: `[2, 3]` → Average HousePrice = 325,000.
+   - Right Node: `[5, 6]` → Average HousePrice = 525,000.
+
+#### Inference:
+- For `RoomCount = 4`, traverse the tree:
+  - `4 > 3` → Go to the right node.
+  - Predicted HousePrice = **525,000**.
+
+---
+
+### **Visualization of the Process**
+
+A decision tree regressor with splits based on `RoomCount`:
+
+```
+            RoomCount <= 3
+           /               \
+    Mean: 325k           Mean: 525k
+```
+
+---
+
+### **How it Differs from a Classifier**
+1. A **classifier** would assign a **class label** (e.g., "Cheap" or "Expensive") to each leaf node based on the majority of data points in that region.
+2. A **regressor** instead computes the **average or median** of the numeric target values within a leaf node.
+
+---
+
+### **Conclusion**
+A **Decision Tree Regressor** predicts numeric values by minimizing the error (variance or absolute error) in the target variable at each split. Unlike a classifier, it doesn’t predict categories but computes the average or median of the target in a leaf node for inference. 
+
+Let me know if you'd like further clarifications! 😊
